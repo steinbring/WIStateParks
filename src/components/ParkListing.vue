@@ -36,7 +36,6 @@ export default {
     return {
       location: {'street':'','adminArea5':'','adminArea3':'','postalCode':''},
       parks: [],
-      rejiggeredParks: [],
       loading: true,
       loadingMessages: ''
     }
@@ -81,7 +80,7 @@ export default {
   },
   mounted() {
     this.geolocation();
-    try{  axios.get("https://spreadsheets.google.com/feeds/cells/1xFKuguz_frWTfkhDg0MbEXHaDtVn7qHigcpUl7zADFA/1/public/full?alt=json").then(response=> (this.parks = response.data.feed));
+    try{  axios.get("https://api.wisparks.jws.app/v1/wisconsinParks.json").then(response=> (this.parks = response.data));
        }catch{
          this.loadingMessages = 'Error loading parks data';
        }
@@ -89,23 +88,14 @@ export default {
   watch: {
     location: function(){
       // Loop over the parks
-      for (let i in this.rejiggeredParks) {
+      for (let i in this.parks) {
         // Set the distance value in km
-        this.rejiggeredParks[i].distance = this.getDistanceFromLatLonInKm(this.rejiggeredParks[i].LatLongCoordinates.split(',')[0],this.rejiggeredParks[i].LatLongCoordinates.split(',')[1],this.location.latLng.lat,this.location.latLng.lng);
+        this.parks[i].distance = this.getDistanceFromLatLonInKm(this.parks[i].LatLongCoordinates.split(',')[0],this.parks[i].LatLongCoordinates.split(',')[1],this.location.latLng.lat,this.location.latLng.lng);
       }
     },
     parks: function () {
-      // Loop over the array and rearrange it into a more usable form
-      // Spreadsheet columns (there are 13): "The name of the property", "Is it a state park?", "Is it a recreation area?", "Is it a state forest?", "Description", "Physical Address", "County", "Phone number", "DNR Website URL", "Directions for getting to the property", "Hours", "The Latitude / Longitude coordinates", "Slug"
-      for (var i = 0; i < this.parks.entry.length; i+=13) {
-        this.rejiggeredParks.push({name:this.parks.entry[i].content.$t, statePark:this.parks.entry[i+1].content.$t, recreationArea:this.parks.entry[i+2].content.$t, stateForest:this.parks.entry[i+3].content.$t, description:this.parks.entry[i+4].content.$t, physicalAddress:this.parks.entry[i+5].content.$t, county:this.parks.entry[i+6].content.$t, phoneNumber:this.parks.entry[i+7].content.$t, dnrWebsite:this.parks.entry[i+8].content.$t, directions:this.parks.entry[i+9].content.$t, hours:this.parks.entry[i+10].content.$t, LatLongCoordinates:this.parks.entry[i+11].content.$t, slug:this.parks.entry[i+12].content.$t, distance: -1});
-      }
-      // Remove the first array element (because it's just a header)
-      this.rejiggeredParks.shift();
-    },
-    rejiggeredParks: function () {
       // Check to see if we have distances to the parks, yet
-      if(this.rejiggeredParks.length > 0){
+      if(this.parks.length > 0){
         this.loading = false;
       }
     }
@@ -114,7 +104,7 @@ export default {
     // This new computed value is how we are going to sort the parks by how far they are from the user
     sortedParks: function() {
       // let parksTemp = this.rejiggeredParks.sort(this.compare);
-      return this.rejiggeredParks.sort(this.compare);
+      return this.parks.sort(this.compare);
     }
   }
 }
