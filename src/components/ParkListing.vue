@@ -1,14 +1,16 @@
 <template>
   <div>
-    <table v-if="!loading">
+    <table class="table" v-if="!loading">
+      <thead>
       <tr>
-        <th>Name</th>
+        <th><a v-on:click="changeSortOrder('name')">Name</a> <i v-if="this.sortBy=='name'&&this.sortOrder=='asc'" class="fas fa-sort-amount-up"></i><i v-if="this.sortBy=='name'&&this.sortOrder=='desc'" class="fas fa-sort-amount-down"></i></th>
         <th>Property Type</th>
         <th>Physical Address</th>
-        <th>County</th>
-        <th v-if="this.sortedParks[0].distance > -1">Distance From You</th>
+        <th><a v-on:click="changeSortOrder('county')">County</a> <i v-if="this.sortBy=='county'&&this.sortOrder=='asc'" class="fas fa-sort-amount-up"></i><i v-if="this.sortBy=='county'&&this.sortOrder=='desc'" class="fas fa-sort-amount-down"></i></th>
+        <th v-if="this.sortedParks[0].distance > -1"><a v-on:click="changeSortOrder('distance')">Distance From You</a> <i v-if="this.sortBy=='distance'&&this.sortOrder=='asc'" class="fas fa-sort-amount-up"></i><i v-if="this.sortBy=='distance'&&this.sortOrder=='desc'" class="fas fa-sort-amount-down"></i></th>
       </tr>
-      <tr v-for="park in this.sortedParks" :key="park" v-bind:value="park">
+      </thead>
+      <tr v-for="park in this.sortedParks">
         <td>{{park.name}}</td>
         <td v-if="park.statePark == 'TRUE'">State Park</td>
         <td v-if="park.recreationArea == 'TRUE'">Recreation Area</td>
@@ -37,7 +39,9 @@ export default {
       location: {'street':'','adminArea5':'','adminArea3':'','postalCode':''},
       parks: [],
       loading: true,
-      loadingMessages: ''
+      loadingMessages: '',
+      sortBy: 'name',
+      sortOrder: 'asc'
     }
   },
   methods: {
@@ -71,11 +75,71 @@ export default {
           .then(response=> (this.location = response.data.results[0].locations[0]));
     },
     compare: function (a, b) {
-      if (a.distance < b.distance)
-        return -1;
-      if (a.distance > b.distance)
-        return 1;
-      return 0;
+      // This uses sortOrder and sortBy for the comparison
+      // ** distance **
+      if (this.sortBy=='distance'){
+        if (this.sortOrder=='asc'){
+          if (a.distance < b.distance)
+            return -1;
+          if (a.distance > b.distance)
+            return 1;
+          return 0;
+        }else{
+          if (a.distance > b.distance)
+            return -1;
+          if (a.distance < b.distance)
+            return 1;
+          return 0;
+        }
+      }
+      // ** distance **
+      // ** county **
+      if (this.sortBy=='county'){
+        if (this.sortOrder=='asc'){
+          if (a.county < b.county)
+            return -1;
+          if (a.county > b.county)
+            return 1;
+          return 0;
+        }else{
+          if (a.county > b.county)
+            return -1;
+          if (a.county < b.county)
+            return 1;
+          return 0;
+        }
+      }
+      // ** county **
+      // ** name **
+      if (this.sortBy=='name'){
+        if (this.sortOrder=='asc'){
+          if (a.name < b.name)
+            return -1;
+          if (a.name > b.name)
+            return 1;
+          return 0;
+        }else{
+          if (a.name > b.name)
+            return -1;
+          if (a.name < b.name)
+            return 1;
+          return 0;
+        }
+      }
+      // ** name **
+    },
+    changeSortOrder: function(newSortBy) {
+      // This method makes things a little cleaner than if you put a bunch of conditions in the template
+      if(newSortBy==this.sortBy){
+        if(this.sortOrder=='asc'){
+          this.sortOrder='desc';
+        }else{
+          this.sortOrder='asc';
+        }
+      }else{
+        this.sortBy = newSortBy;
+        this.sortOrder = 'asc';
+      }
     }
   },
   mounted() {
@@ -91,7 +155,10 @@ export default {
       for (let i in this.parks) {
         // Set the distance value in km
         this.parks[i].distance = this.getDistanceFromLatLonInKm(this.parks[i].LatLongCoordinates.split(',')[0],this.parks[i].LatLongCoordinates.split(',')[1],this.location.latLng.lat,this.location.latLng.lng);
-      }
+      };
+      // Set the sort order to distance, asc by default if you know the user's location
+      this.sortBy = 'distance';
+      this.sortOrder = 'asc';
     },
     parks: function () {
       // Check to see if we have distances to the parks, yet
@@ -103,7 +170,6 @@ export default {
   computed: {
     // This new computed value is how we are going to sort the parks by how far they are from the user
     sortedParks: function() {
-      // let parksTemp = this.rejiggeredParks.sort(this.compare);
       return this.parks.sort(this.compare);
     }
   }
@@ -112,18 +178,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
