@@ -3,11 +3,11 @@
     <table class="table" v-if="!loading">
       <thead>
       <tr>
-        <th><a v-on:click="changeSortOrder('name')">Name</a> <i v-if="this.sortBy=='name'&&this.sortOrder=='asc'" class="fas fa-sort-amount-up"></i><i v-if="this.sortBy=='name'&&this.sortOrder=='desc'" class="fas fa-sort-amount-down"></i></th>
+        <th><a v-on:click="changeSortOrder('name')">Name</a> <span v-show="this.sortBy=='name'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='name'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
         <th>Property Type</th>
         <th>Physical Address</th>
-        <th><a v-on:click="changeSortOrder('county')">County</a> <i v-if="this.sortBy=='county'&&this.sortOrder=='asc'" class="fas fa-sort-amount-up"></i><i v-if="this.sortBy=='county'&&this.sortOrder=='desc'" class="fas fa-sort-amount-down"></i></th>
-        <th v-if="this.sortedParks[0].distance > -1"><a v-on:click="changeSortOrder('distance')">Distance From You</a> <i v-if="this.sortBy=='distance'&&this.sortOrder=='asc'" class="fas fa-sort-amount-up"></i><i v-if="this.sortBy=='distance'&&this.sortOrder=='desc'" class="fas fa-sort-amount-down"></i></th>
+        <th><a v-on:click="changeSortOrder('county')">County</a> <span v-show="this.sortBy=='county'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='county'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
+        <th v-if="this.sortedParks[0].distance > -1"><a v-on:click="changeSortOrder('distance')">Distance From You</a> <span v-show="this.sortBy=='distance'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='distance'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
       </tr>
       </thead>
       <tr v-for="park in this.sortedParks">
