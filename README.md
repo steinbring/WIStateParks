@@ -2,7 +2,11 @@
 
 ## Description
 
-I started working on writing this app in 2021 after setting a goal to visit every state park in Wisconsin.  The goal is for this app to answer the question of "What state parks can I realisticly visit today, that I haven't been to, yet?". 
+I started working on writing this app in 2021 after setting a [goal to visit every state park in Wisconsin](https://travels.jws.app/post/646625422495383552/2021-travel-goals).  The goal is for this app to answer the question of "What state parks can I realisticly visit today, that I haven't been to, yet?". 
+
+## Related Repos
+
+- [WIStateParks-API](https://github.com/steinbring/WIStateParks-API)
 
 ## Important Links
 
