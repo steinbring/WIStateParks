@@ -14,6 +14,19 @@ Vue.use(VueRouter)
 
 Vue.config.productionTip = false
 
+import ParkListing from './components/ParkListing.vue';
+import Home from './components/Home.vue';
+
+const routes = [
+  { path: '/', component: Home },
+  { path: '/listing', component: ParkListing }
+]
+
+const router = new VueRouter({
+  routes // short for `routes: routes`
+})
+
 new Vue({
   render: h => h(App),
+  router
 }).$mount('#app')

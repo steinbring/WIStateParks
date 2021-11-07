@@ -15,13 +15,9 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item">
-            Home
-          </a>
+          <router-link to="/" class="navbar-item">Home</router-link>
 
-          <a class="navbar-item">
-            List Parks
-          </a>
+          <router-link to="/listing" class="navbar-item">List Parks</router-link>
 
           <a class="navbar-item">
             Map of Parks
