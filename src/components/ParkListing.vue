@@ -3,21 +3,21 @@
     <table class="table" v-if="!loading">
       <thead>
       <tr>
+        <th v-if="showNumbers"></th>
         <th><a v-on:click="changeSortOrder('name')">Name</a> <span v-show="this.sortBy=='name'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='name'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
-        <th>Property Type</th>
+        <th><a v-on:click="changeSortOrder('propertyType')">Property Type</a> <span v-show="this.sortBy=='propertyType'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='propertyType'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
         <th>Physical Address</th>
         <th><a v-on:click="changeSortOrder('county')">County</a> <span v-show="this.sortBy=='county'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='county'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
         <th v-if="this.sortedParks[0].distance > -1"><a v-on:click="changeSortOrder('distance')">Distance From You</a> <span v-show="this.sortBy=='distance'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='distance'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
       </tr>
       </thead>
-      <tr v-for="park in this.sortedParks">
+      <tr v-for="(park, index) in this.sortedParks" :key="park.name">
+        <td v-if="showNumbers">{{index+1}}.</td>
         <td>{{park.name}}</td>
-        <td v-if="park.statePark == 'TRUE'">State Park</td>
-        <td v-if="park.recreationArea == 'TRUE'">Recreation Area</td>
-        <td v-if="park.stateForest == 'TRUE'">State Forest</td>
+        <td>{{park.propertyType}}</td>
         <td>{{park.physicalAddress}}</td>
         <td>{{park.county}}</td>
-        <td v-if="park.distance > -1">{{park.distance.toFixed(2)}} km</td>
+        <td>{{park.distance.toFixed(2)}} km</td>
       </tr>
     </table>
 
@@ -36,12 +36,13 @@ export default {
   name: 'ParkListing',
   data: function() {
     return {
-      location: {'street':'','adminArea5':'','adminArea3':'','postalCode':''},
+      location: {'latitude':null,'longitude':null,'city':'','state':'','zip':'','precisionConfidence':''},
       parks: [],
       loading: true,
       loadingMessages: '',
       sortBy: 'name',
-      sortOrder: 'asc'
+      sortOrder: 'asc',
+      showNumbers: false
     }
   },
   methods: {
@@ -60,19 +61,6 @@ export default {
     },
     deg2rad: function(deg) {
       return deg * (Math.PI/180);
-    },
-    geolocation: function() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.showPosition);
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
-    },
-    showPosition: function(position) {
-      // Use Axios to make a MapQuest API Call
-        axios
-        .get("https://www.mapquestapi.com/geocoding/v1/reverse?key=TPWvRrsfpgGWBACqqXd94fbDcfVpy2WJ&location="+position.coords.latitude+"%2C"+position.coords.longitude+"&outFormat=json&thumbMaps=false")
-          .then(response=> (this.location = response.data.results[0].locations[0]));
     },
     compare: function (a, b) {
       // This uses sortOrder and sortBy for the comparison
@@ -110,6 +98,23 @@ export default {
         }
       }
       // ** county **
+      // ** propertyType **
+      if (this.sortBy=='propertyType'){
+        if (this.sortOrder=='asc'){
+          if (a.propertyType < b.propertyType)
+            return -1;
+          if (a.propertyType > b.propertyType)
+            return 1;
+          return 0;
+        }else{
+          if (a.propertyType > b.propertyType)
+            return -1;
+          if (a.propertyType < b.propertyType)
+            return 1;
+          return 0;
+        }
+      }
+      // ** propertyType **
       // ** name **
       if (this.sortBy=='name'){
         if (this.sortOrder=='asc'){
@@ -143,28 +148,18 @@ export default {
     }
   },
   mounted() {
-    this.geolocation();
-    try{  axios.get("https://api.wisparks.jws.app/v1/wisconsinParks.json").then(response=> (this.parks = response.data));
+    try{  axios.get("https://wisparks-parkslist.joe.workers.dev/").then(response=> (this.parks = response.data));
        }catch{
          this.loadingMessages = 'Error loading parks data';
        }
   },
   watch: {
-    location: function(){
-      // Loop over the parks
-      for (let i in this.parks) {
-        // Set the distance value in km
-        this.parks[i].distance = this.getDistanceFromLatLonInKm(this.parks[i].LatLongCoordinates.split(',')[0],this.parks[i].LatLongCoordinates.split(',')[1],this.location.latLng.lat,this.location.latLng.lng);
-      };
-      // Set the sort order to distance, asc by default if you know the user's location
-      this.sortBy = 'distance';
-      this.sortOrder = 'asc';
-    },
     parks: function () {
       // Check to see if we have distances to the parks, yet
       if(this.parks.length > 0){
         this.loading = false;
       }
+      // 
     }
   },
   computed: {
