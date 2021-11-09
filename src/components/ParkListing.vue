@@ -1,5 +1,6 @@
 <template>
   <div>
+    <FilterBar />
     <table class="table" v-if="!loading">
       <thead>
       <tr>
@@ -32,8 +33,13 @@
 
 <script>
 import axios from 'axios';
+import FilterBar from './FilterBar.vue';
+
 export default {
   name: 'ParkListing',
+  components: {
+    FilterBar
+  },
   data: function() {
     return {
       location: {'latitude':null,'longitude':null,'city':'','state':'','zip':'','precisionConfidence':''},
