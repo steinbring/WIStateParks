@@ -6,7 +6,7 @@
           <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
         </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onclick="document.getElementById('navbarBasicExample').classList.toggle('is-active');">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
