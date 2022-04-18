@@ -154,7 +154,7 @@ export default {
     }
   },
   mounted() {
-    try{  axios.get("https://cors-anywhere.herokuapp.com/wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.parks = response.data));
+    try{  axios.get("https://wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.parks = response.data));
        }catch{
          this.loadingMessages = 'Error loading parks data';
        }
