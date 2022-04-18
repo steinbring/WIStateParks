@@ -19,9 +19,7 @@
 
           <router-link to="/listing" class="navbar-item">List Parks</router-link>
 
-          <a class="navbar-item">
-            Map of Parks
-          </a>
+          <router-link to="/map" class="navbar-item">Park Map</router-link>
 
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">

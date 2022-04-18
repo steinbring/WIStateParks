@@ -15,11 +15,13 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 import ParkListing from './components/ParkListing.vue';
+import ParkMap from './components/ParkMap.vue';
 import Home from './components/Home.vue';
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/listing', component: ParkListing }
+  { path: '/listing', component: ParkListing },
+  { path: '/map', component: ParkMap }
 ]
 
 const router = new VueRouter({
