@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted() {
-    try{  axios.get("https://wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.parks = response.data));
+    try{  axios.get("https://cors-anywhere.herokuapp.com/wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.parks = response.data));
        }catch{
          this.loadingMessages = 'Error loading parks data';
        }
@@ -70,11 +70,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
   html,
   body,
   #map {
-    height: 100%;
+    height: 100vh;
+    width: 100vw;
     margin: 0;
   }
 </style>
