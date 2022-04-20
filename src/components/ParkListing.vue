@@ -7,8 +7,8 @@
         <th v-if="showNumbers"></th>
         <th><a v-on:click="changeSortOrder('name')">Name</a> <span v-show="this.sortBy=='name'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='name'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
         <th><a v-on:click="changeSortOrder('propertyType')">Property Type</a> <span v-show="this.sortBy=='propertyType'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='propertyType'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
-        <th>Physical Address</th>
-        <th><a v-on:click="changeSortOrder('county')">County</a> <span v-show="this.sortBy=='county'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='county'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
+        <th class="is-hidden-mobile">Physical Address</th>
+        <th class="is-hidden-mobile"><a v-on:click="changeSortOrder('county')">County</a> <span v-show="this.sortBy=='county'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='county'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
         <th v-if="this.sortedParks[0].distance > -1"><a v-on:click="changeSortOrder('distance')">Distance From You</a> <span v-show="this.sortBy=='distance'&&this.sortOrder=='asc'"><i class="fas fa-sort-amount-up"></i></span><span v-show="this.sortBy=='distance'&&this.sortOrder=='desc'"><i class="fas fa-sort-amount-down"></i></span></th>
       </tr>
       </thead>
@@ -16,8 +16,8 @@
         <td v-if="showNumbers">{{index+1}}.</td>
         <td>{{park.name}}</td>
         <td>{{park.propertyType}}</td>
-        <td>{{park.physicalAddress}}</td>
-        <td>{{park.county}}</td>
+        <td class="is-hidden-mobile">{{park.physicalAddress}}</td>
+        <td class="is-hidden-mobile">{{park.county}}</td>
         <td>{{park.distance.toFixed(2)}} km</td>
       </tr>
     </table>
@@ -154,7 +154,7 @@ export default {
     }
   },
   mounted() {
-    try{  axios.get("https://wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.parks = response.data));
+    try{  axios.get("https://cors-anywhere.herokuapp.com/wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.parks = response.data));
        }catch{
          this.loadingMessages = 'Error loading parks data';
        }
