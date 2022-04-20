@@ -1,16 +1,16 @@
 <template>
   <div>
     <label class="checkbox filterItem">
-      <input type="checkbox">
-      Parks
+      <input type="checkbox" v-model="showParks">
+      Parks ({{numberOfParks}})
     </label>
     <label class="checkbox filterItem">
-      <input type="checkbox">
-      Recreation Areas
+      <input type="checkbox" v-model="showRecAreas">
+      Rec Areas ({{numberOfRecAreas}})
     </label>
     <label class="checkbox filterItem">
-      <input type="checkbox">
-      Forests
+      <input type="checkbox" v-model="showForests">
+      Forests ({{numberOfForests}})
     </label>
   </div>
 </template>
@@ -19,9 +19,27 @@
   import axios from 'axios';
   export default {
     name: 'FilterBar',
-    data: function() {
-      return {
-        
+    computed: {
+      showParks: function() {
+        return this.$parent.$parent.showParks;
+      },
+      showRecAreas: function() {
+        return this.$parent.$parent.showRecAreas;
+      },
+      showForests: function() {
+        return this.$parent.$parent.showForests;
+      },
+      numberOfParks: function() {
+        const filteredParks = this.$parent.parks.filter(park => park.statePark == 'TRUE');
+        return filteredParks.length;
+      },
+      numberOfRecAreas: function() {
+        const filteredRecAreas = this.$parent.parks.filter(recAreas => recAreas.recreationArea == 'TRUE');
+        return filteredRecAreas.length;
+      },
+      numberOfForests: function() {
+        const filteredForests = this.$parent.parks.filter(forests => forests.stateForest == 'TRUE');
+        return filteredForests.length;
       }
     }
   }

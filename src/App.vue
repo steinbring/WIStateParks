@@ -13,7 +13,14 @@ export default {
   name: 'App',
   components: {
     MenuBar
-  }
+  },
+  data: function() {
+    return {
+      showParks: true,
+      showRecAreas: true,
+      showForests: true
+    }
+  },
 }
 </script>
 
