@@ -2,9 +2,9 @@
   <div>
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
+        <router-link to="/" class="navbar-item">
           <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-        </a>
+        </router-link>
 
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onclick="document.getElementById('navbarBasicExample').classList.toggle('is-active');">
           <span aria-hidden="true"></span>
@@ -15,7 +15,6 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <router-link to="/" class="navbar-item">Home</router-link>
 
           <router-link to="/listing" class="navbar-item">List Parks</router-link>
 
