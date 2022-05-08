@@ -3,7 +3,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link to="/" class="navbar-item">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          <img src="/favicon-32x32.png" width="32" height="32"> &nbsp;&nbsp; <strong>State Parks Explorer</strong>
         </router-link>
 
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onclick="document.getElementById('navbarBasicExample').classList.toggle('is-active');">
