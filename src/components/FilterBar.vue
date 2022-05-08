@@ -20,14 +20,29 @@
   export default {
     name: 'FilterBar',
     computed: {
-      showParks: function() {
-        return this.$parent.$parent.showParks;
+      showParks: {
+        get: function() {
+          return this.$parent.$parent.showParks;
+        },
+        set: function(newValue) {
+          this.$parent.$parent.showParks = newValue;
+        }
       },
-      showRecAreas: function() {
-        return this.$parent.$parent.showRecAreas;
+      showRecAreas: {
+        get: function() {
+          return this.$parent.$parent.showRecAreas;
+        },
+        set: function(newValue) {
+          this.$parent.$parent.showRecAreas = newValue;
+        }
       },
-      showForests: function() {
-        return this.$parent.$parent.showForests;
+      showForests: {
+        get: function() {
+          return this.$parent.$parent.showForests;
+        },
+        set: function(newValue) {
+          this.$parent.$parent.showForests = newValue;
+        }
       },
       numberOfParks: function() {
         const filteredParks = this.$parent.parks.filter(park => park.statePark == 'TRUE');
