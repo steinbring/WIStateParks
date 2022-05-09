@@ -1,7 +1,7 @@
 <template>
   <div>
     <FilterBar />
-    <table class="table" v-if="!loading">
+    <table class="table" v-if="!loading&&!emptyArray">
       <thead>
       <tr>
         <th v-if="showNumbers"></th>
@@ -21,6 +21,10 @@
         <td>{{park.distance.toFixed(2)}} km</td>
       </tr>
     </table>
+
+    <div v-if="emptyArray">
+      No properties selected
+    </div>
 
     <div v-if="loading">
       Loading ... 
@@ -44,7 +48,9 @@ export default {
     return {
       location: {'latitude':null,'longitude':null,'city':'','state':'','zip':'','precisionConfidence':''},
       parks: [],
+      originalParks: [],
       loading: true,
+      emptyArray: false,
       loadingMessages: '',
       sortBy: 'name',
       sortOrder: 'asc',
@@ -154,24 +160,150 @@ export default {
     }
   },
   mounted() {
-    try{  axios.get("https://wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.parks = response.data));
+    try{  axios.get("https://wisparks-parkslist-test.joe.workers.dev/").then(response=> (this.originalParks = response.data));
        }catch{
          this.loadingMessages = 'Error loading parks data';
        }
   },
   watch: {
+    originalParks: function () {
+      // Should happen after getting the data from the API
+      this.parks = this.originalParks;
+    },
     parks: function () {
       // Check to see if we have distances to the parks, yet
       if(this.parks.length > 0){
         this.loading = false;
       }
-      // 
+    },
+    showParks: function () {
+      // Something has changed with the filter bar.  Filter the data accordingly.
+      if(this.showParks && this.showRecAreas && this.showForests){
+        // Show All Properties
+        this.parks = this.originalParks;
+        this.emptyArray = false;
+      }else if(this.showParks && this.showRecAreas){
+        // Show State Parks and Recreation Areas
+        let result2 = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showParks && this.showForests){
+        // Show State Parks and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showRecAreas && this.showForests){
+        // Show Recreation Areas and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'Recreation Area'));
+        this.emptyArray = false;
+      }else if(this.showParks){
+        // Show State Parks
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Park');
+        this.emptyArray = false;
+      }else if(this.showForests){
+        // Show Forests
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.emptyArray = false;
+      }else if(this.showRecAreas){
+        // Show Recreation Areas
+        this.parks = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.emptyArray = false;
+      }else{
+        this.parks = [];
+        this.emptyArray = true;
+      }
+    },
+    showRecAreas: function () {
+      // Something has changed with the filter bar.  Filter the data accordingly.
+      if(this.showParks && this.showRecAreas && this.showForests){
+        // Show All Properties
+        this.parks = this.originalParks;
+        this.emptyArray = false;
+      }else if(this.showParks && this.showRecAreas){
+        // Show State Parks and Recreation Areas
+        let result2 = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showParks && this.showForests){
+        // Show State Parks and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showRecAreas && this.showForests){
+        // Show Recreation Areas and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'Recreation Area'));
+        this.emptyArray = false;
+      }else if(this.showParks){
+        // Show State Parks
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Park');
+        this.emptyArray = false;
+      }else if(this.showForests){
+        // Show Forests
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.emptyArray = false;
+      }else if(this.showRecAreas){
+        // Show Recreation Areas
+        this.parks = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.emptyArray = false;
+      }else{
+        this.parks = [];
+        this.emptyArray = true;
+      }
+    },
+    showForests: function () {
+      // Something has changed with the filter bar.  Filter the data accordingly.
+      if(this.showParks && this.showRecAreas && this.showForests){
+        // Show All Properties
+        this.parks = this.originalParks;
+        this.emptyArray = false;
+      }else if(this.showParks && this.showRecAreas){
+        // Show State Parks and Recreation Areas
+        let result2 = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showParks && this.showForests){
+        // Show State Parks and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showRecAreas && this.showForests){
+        // Show Recreation Areas and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'Recreation Area'));
+        this.emptyArray = false;
+      }else if(this.showParks){
+        // Show State Parks
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Park');
+        this.emptyArray = false;
+      }else if(this.showForests){
+        // Show Forests
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.emptyArray = false;
+      }else if(this.showRecAreas){
+        // Show Recreation Areas
+        this.parks = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.emptyArray = false;
+      }else{
+        this.parks = [];
+        this.emptyArray = true;
+      }
     }
   },
   computed: {
     // This new computed value is how we are going to sort the parks by how far they are from the user
     sortedParks: function() {
       return this.parks.sort(this.compare);
+    },
+    showParks: function() {
+      return this.$parent.showParks;
+    },
+    showRecAreas: function() {
+      return this.$parent.showRecAreas;
+    },
+    showForests: function() {
+      return this.$parent.showForests;
     }
   }
 }
