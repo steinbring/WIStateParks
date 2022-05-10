@@ -169,6 +169,43 @@ export default {
     originalParks: function () {
       // Should happen after getting the data from the API
       this.parks = this.originalParks;
+
+      // If they already selected something on the filter bar, start there.
+      if(this.showParks && this.showRecAreas && this.showForests){
+        // Show All Properties
+        this.parks = this.originalParks;
+        this.emptyArray = false;
+      }else if(this.showParks && this.showRecAreas){
+        // Show State Parks and Recreation Areas
+        let result2 = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showParks && this.showForests){
+        // Show State Parks and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'State Park'));
+        this.emptyArray = false;
+      }else if(this.showRecAreas && this.showForests){
+        // Show Recreation Areas and Forests
+        let result2 = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.parks = result2.concat(this.originalParks.filter(park => park.propertyType === 'Recreation Area'));
+        this.emptyArray = false;
+      }else if(this.showParks){
+        // Show State Parks
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Park');
+        this.emptyArray = false;
+      }else if(this.showForests){
+        // Show Forests
+        this.parks = this.originalParks.filter(park => park.propertyType === 'State Forest');
+        this.emptyArray = false;
+      }else if(this.showRecAreas){
+        // Show Recreation Areas
+        this.parks = this.originalParks.filter(park => park.propertyType === 'Recreation Area');
+        this.emptyArray = false;
+      }else{
+        this.parks = [];
+        this.emptyArray = true;
+      }
     },
     parks: function () {
       // Check to see if we have distances to the parks, yet
