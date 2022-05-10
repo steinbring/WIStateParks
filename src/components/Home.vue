@@ -1,6 +1,32 @@
 <template>
   <div>
-    Home
+    <div class="container card">
+      <div class="card-content">
+        <div class="content">
+          <h1>Welcome to the Wisconsin State Parks Explorer</h1>
+          <p>Intro content goes here</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container card">
+      <div class="card-content">
+        <div class="content">
+          <h1>State Park of the Day</h1>
+          <p>The state park of the day goes here</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container card">
+      <div class="card-content">
+        <div class="content">
+          <h1>Not sure whatelse to put here?</h1>
+          <p>Suggestions?</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -18,5 +44,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 </style>
