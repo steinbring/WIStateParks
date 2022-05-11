@@ -14,7 +14,7 @@
       </thead>
       <tr v-for="(park, index) in this.sortedParks" :key="park.name">
         <td v-if="showNumbers">{{index+1}}.</td>
-        <td>{{park.name}}</td>
+        <td><router-link :to="'/park/'+park.slug">{{park.name}}</router-link></td>
         <td>{{park.propertyType}}</td>
         <td class="is-hidden-mobile">{{park.physicalAddress}}</td>
         <td class="is-hidden-mobile">{{park.county}}</td>

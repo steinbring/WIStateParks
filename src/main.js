@@ -16,12 +16,14 @@ Vue.config.productionTip = false
 
 import ParkListing from './components/ParkListing.vue';
 import ParkMap from './components/ParkMap.vue';
+import Profile from './components/Profile.vue';
 import Home from './components/Home.vue';
 
 const routes = [
   { path: '/', component: Home },
   { path: '/listing', component: ParkListing },
-  { path: '/map', component: ParkMap }
+  { path: '/map', component: ParkMap },
+  { path: '/park/:slug', component: Profile, props: true }
 ]
 
 const router = new VueRouter({
