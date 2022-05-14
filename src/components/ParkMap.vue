@@ -48,21 +48,21 @@ export default {
         if(this.parks[i].stateForest == 'TRUE'){
           new mapboxgl.Marker({ color: "#000000" })
             .setLngLat([this.parks[i].LatLongCoordinates.split(',')[1],this.parks[i].LatLongCoordinates.split(',')[0]])
-            .setPopup(new mapboxgl.Popup().setHTML("<b><a href='"+this.parks[i].dnrWebsite+"'>"+this.parks[i].name+"</a></b><p>"+this.parks[i].physicalAddress+"</p>"))
+            .setPopup(new mapboxgl.Popup().setHTML("<b><a href='/#/park/"+this.parks[i].slug+"'>"+this.parks[i].name+"</a></b><p>"+this.parks[i].physicalAddress+"</p><p>"+this.parks[i].distance.toFixed(2)+"km away</p>"))
             .addTo(ParkMap);
         }
         // Set the marker to red if it's a Recreation Area
         if(this.parks[i].recreationArea == 'TRUE'){
           new mapboxgl.Marker({ color: "#e50000" })
             .setLngLat([this.parks[i].LatLongCoordinates.split(',')[1],this.parks[i].LatLongCoordinates.split(',')[0]])
-            .setPopup(new mapboxgl.Popup().setHTML("<b><a href='"+this.parks[i].dnrWebsite+"'>"+this.parks[i].name+"</a></b><p>"+this.parks[i].physicalAddress+"</p>"))
+            .setPopup(new mapboxgl.Popup().setHTML("<b><a href='/#/park/"+this.parks[i].slug+"'>"+this.parks[i].name+"</a></b><p>"+this.parks[i].physicalAddress+"</p><p>"+this.parks[i].distance.toFixed(2)+"km away</p>"))
             .addTo(ParkMap);
         }
         // Set the marker to blue if it's a State Park
         if(this.parks[i].statePark == 'TRUE'){
           new mapboxgl.Marker({ color: "#0000ff" })
             .setLngLat([this.parks[i].LatLongCoordinates.split(',')[1],this.parks[i].LatLongCoordinates.split(',')[0]])
-            .setPopup(new mapboxgl.Popup().setHTML("<b><a href='"+this.parks[i].dnrWebsite+"'>"+this.parks[i].name+"</a></b><p>"+this.parks[i].physicalAddress+"</p>"))
+            .setPopup(new mapboxgl.Popup().setHTML("<b><a href='/#/park/"+this.parks[i].slug+"'>"+this.parks[i].name+"</a></b><p>"+this.parks[i].physicalAddress+"</p><p>"+this.parks[i].distance.toFixed(2)+"km away</p>"))
             .addTo(ParkMap);
         }
       }
