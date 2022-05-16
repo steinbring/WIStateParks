@@ -70,7 +70,7 @@
       }
     },
     mounted() {
-      try{  axios.get("https://wisparks-parkdetails.joe.workers.dev/?slug="+this.slug).then(response=> (this.park = response.data));
+      try{  axios.get("https://wisparks-parkdetails-test.joe.workers.dev/?slug="+this.slug).then(response=> (this.park = response.data));
        }catch{
          this.loadingMessages = 'Error loading park data';
        }
